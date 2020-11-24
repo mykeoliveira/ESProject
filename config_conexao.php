@@ -1,7 +1,8 @@
-﻿<?php
+<?php
 //Definendo variaveis de conexao com banco de dados
-define("SERVIDOR", "us-cdbr-east-05.cleardb.net");
-define("USUARIO", "be5e2232b15f70");
-define("SENHA", "e3eeddaa");
-define("BANCO", "heroku_3916b5627a97d8c");
+define("SERVIDOR", "us-cdbr-east-02.cleardb.com");
+define("USUARIO", "be4a84f91fb99e");
+define("SENHA", "e3a62a69");
+define("BANCO", "heroku_c5baaf19dbcfd2c");
 ?> 
+

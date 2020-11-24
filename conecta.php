@@ -1,8 +1,8 @@
 <?php
-$dbname='heroku_3916b5627a97d8c';
-$usuario='be5e2232b15f70';
-$password='e3eeddaa';
-$localhost='us-cdbr-east-05.cleardb.net';
+$dbname='heroku_c5baaf19dbcfd2c';
+$usuario='be4a84f91fb99e';
+$password='e3a62a69';
+$localhost='us-cdbr-east-02.cleardb.com';
 
 //Passo 1 - Conecta ao servidor MySQL
 if(!($id = mysqli_connect($localhost,$usuario,$password,$dbname))) {
