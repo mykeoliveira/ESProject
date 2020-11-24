@@ -6,8 +6,13 @@ $nome= $_POST ["nome"];
 $login= $_POST ["login"];	
 $senha= $_POST["senha"];
 
+$dbname='heroku_c5baaf19dbcfd2c';
+$usuario='be4a84f91fb99e';
+$password='e3a62a69';
+$localhost='us-cdbr-east-02.cleardb.com';
+
 //conectando com o localhost - mysqli
-$conexao = mysqli_connect("us-cdbr-east-05.cleardb.net","be5e2232b15f70","e3eeddaa","heroku_3916b5627a97d8c") or die ('Não foi possível conectar');
+$conexao = mysqli_connect("us-cdbr-east-02.cleardb.com","be4a84f91fb99e","e3a62a69","heroku_c5baaf19dbcfd2c") or die ('Não foi possível conectar');
 $query = "INSERT INTO `usuario` (`nome`,`login`,`senha`) VALUES ('$nome', '$login', '$senha')";
 //print $query;
 mysqli_query($conexao, $query) or die ("Erro no comando SQL:".mysqli_error());
