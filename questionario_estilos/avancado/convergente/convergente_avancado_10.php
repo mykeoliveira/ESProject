@@ -919,7 +919,7 @@ function TypeChars(Chars){
 <div class="Feedback" id="FeedbackDiv">
 <div class="FeedbackText" id="FeedbackContent"></div>
 	
-	<a href="convergente_avancado_9.php"> Próximo </a>
+	<a href="convergente_avancado_9.php"> Anterior </a>
 
 </div>
 
