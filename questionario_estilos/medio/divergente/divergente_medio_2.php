@@ -934,7 +934,7 @@ main()<br />{<br /> int v1, v2, v3, v4, v5, <span class="GapSpan" id="GapSpan0">
 <br />
 
 <button id="CheckButton2" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Verificar&nbsp;</button>
-
+<a href="divergente_medio_1.php"> Anterior </a>
 <a href="divergente_medio_3.php"> Próximo </a>
 </div>
 

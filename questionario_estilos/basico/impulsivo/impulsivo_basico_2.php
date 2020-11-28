@@ -1055,7 +1055,7 @@ function CheckFinished(){
 <br />
 <button class="FuncButton" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckMultiSelAnswer(0)">Verificar</button>
 
-
+<a href="impulsivo_basico_1.php"> Anterior </a>
 <a href="impulsivo_basico_3.php"> Próximo </a>
 </div>
 <br />
