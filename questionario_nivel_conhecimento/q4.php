@@ -933,6 +933,7 @@ int <span class="GapSpan" id="GapSpan0"><input type="text" id="Gap0" onfocus="Tr
 <input type="button" value="Verificar" onclick="CheckAnswers()" />
 <input type="hidden" name="porcentagem" id="porcentagem" value="">
 <input type="submit" name="enviar" value="Próximo" />
+<button onclick="history.go(-1);">Back </button>
 </form>
 </div>
 
