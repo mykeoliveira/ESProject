@@ -1139,6 +1139,8 @@ function CheckFinished(){
 <input type="hidden" name="porcentagem" id="porcentagem" value="">
 
 <input type="submit" name="enviar" value="Começar" />
+	
+	<a href="<?= $previous ?>">Back</a>
 
 <form action="q1.php">
     <input type="submit" value="Refazer" />
