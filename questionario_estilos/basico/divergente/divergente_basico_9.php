@@ -819,6 +819,7 @@ function CheckAnswers(){
 </div>
 
 <button id="CheckButton2" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Verificar&nbsp;</button>
+<a href="divergente_basico_8.php"> Anterior </a>
 <a href="divergente_basico_10.php"> Próximo </a>
 </div>
 
