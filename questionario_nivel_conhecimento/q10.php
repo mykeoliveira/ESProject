@@ -1144,7 +1144,7 @@ function CheckFinished(){
 
 <input type="submit" name="enviar" value="Próximo" />
 	
-	<a href="<?= $previous ?>">Back</a>
+<a href="<?= $previous ?>">Anterior</a>
 
 </div>
 
