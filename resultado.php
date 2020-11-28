@@ -106,6 +106,7 @@ if($tipos=="IMPULSIVO")
 }
 ?>
 <br><br> To continue, you need to test your expertise level. Click <a href="questionario_nivel_conhecimento/q1.php"> here</a>.
+			<br><br> If desired, you can retake the cognitive style assessment test. Click <a href="realiza_teste11.php"> here</a>.
 
       
         
