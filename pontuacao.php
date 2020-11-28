@@ -3,9 +3,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
     
-    <title>Questão 8</title>
+    <title>Pontuação Final</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         
+        <title>Free CSS3 &amp; XHTML One Page Template | Tutorialzine Freebie</title>
         
         <link rel="stylesheet" type="text/css" href="../../../styles.css" />
                
@@ -40,14 +41,14 @@
                         <li><a href="../../../contato.php">Contact</a></li>
                     </ul>
                 </div>
-            
             </div>
             
             <div class="section" id="articles"> 
             <div class="line"></div>  <!-- Dividing line --> 
             <div class="article" id="article1">
                 
-             <script type="text/javascript">
+                
+            <script type="text/javascript">
 
 //<![CDATA[
 
@@ -494,362 +495,258 @@ function Finish(){
 
 
 
-//JCLOZE CORE JAVASCRIPT CODE
+//JMATCH CORE JAVASCRIPT CODE
 
-function ItemState(){
-	this.ClueGiven = false;
-	this.HintsAndChecks = 0;
-	this.MatchedAnswerLength = 0;
-	this.ItemScore = 0;
-	this.AnsweredCorrectly = false;
-	this.Guesses = new Array();
-	return this;
-}
-
-var Feedback = '';
-var Correct = '';
-var Incorrect = ''; 
-var GiveHint = '';
-var CaseSensitive = false;
+var CorrectIndicator = ':-)';
+var IncorrectIndicator = 'X';
 var YourScoreIs = 'Sua pontua&#x00E7;&#x00E3;o &#x00E9;';
+var CorrectResponse = '';
+var IncorrectResponse = '';
+var TotalUnfixedLeftItems = 0;
+var TotCorrectChoices = 0;
+var Penalties = 0;
 var Finished = false;
-var Locked = false;
-var Score = 0;
-var CurrentWord = 0;
-var Guesses = '';
 var TimeOver = false;
 
-I = new Array();
+var Score = 0;
+var Locked = false;
+var ShuffleQs = false;
+var QsToShow = 7;
 
-I[0] = new Array();
-I[0][1] = new Array();
-I[0][1][0] = new Array();
-I[0][1][0][0] = '\u0072\u0065\u0073';
-I[0][2]='';
-
-I[1] = new Array();
-I[1][1] = new Array();
-I[1][1][0] = new Array();
-I[1][1][0][0] = '\u0069\u006E\u0069\u0063\u0069\u006F';
-I[1][2]='';
-
-I[2] = new Array();
-I[2][1] = new Array();
-I[2][1][0] = new Array();
-I[2][1][0][0] = '\u006C\u0065\u0069\u0061';
-I[2][2]='';
-
-I[3] = new Array();
-I[3][1] = new Array();
-I[3][1][0] = new Array();
-I[3][1][0][0] = '\u0072\u0065\u0073';
-I[3][2]='';
-
-
-State = new Array();
 
 function StartUp(){
 	RemoveBottomNavBarForIE();
-//Show a keypad if there is one	(added bugfix for 6.0.4.12)
-	if (document.getElementById('CharacterKeypad') != null){
-		document.getElementById('CharacterKeypad').style.display = 'block';
-	}
+
+
 	
 
 
 
 
+	SetUpItems(ShuffleQs,QsToShow);
 
+	TotalUnfixedLeftItems = document.getElementById('MatchDiv').getElementsByTagName('select').length;
 
-
-	var i = 0;
-
-	State.length = 0;
-	for (i=0; i<I.length; i++){
-		State[i] = new ItemState();
-	}
-	
-	ClearTextBoxes();
-	
+//Create arrays
+	CreateStatusArrays();
 
 
 }
 
-function ShowClue(ItemNum){
-	if (Locked == true){return;}
-	State[ItemNum].ClueGiven = true;
-	ShowMessage(I[ItemNum][2]);
+Status = new Array();
+
+
+function CreateStatusArrays(){
+	var Selects = document.getElementById('Questions').getElementsByTagName('select');
+	for (var x=0; x<Selects.length; x++){
+		Status[x] = new Array();
+		Status[x][0] = 0; // Item not matched correctly yet
+		Status[x][1] = 0; //Tries at this item so far
+		Status[x][2] = Selects[x].id; //Store a ref to the original drop-down
+		Status[x][3] = new Array(); //Sequence of guesses for this item
+	}
 }
 
-function SaveCurrentAnswers(){
-	var Ans = '';
-	for (var i=0; i<I.length; i++){
-		Ans = GetGapValue(i);
-		if ((Ans.length > 0)&&(Ans != State[i].Guesses[State[i].Guesses.length-1])){
-			State[i].Guesses[State[i].Guesses.length] = Ans;
+function GetKeyFromSelectContainer(Container){
+	var Result = -1;
+	if (Container.getElementsByTagName('select').length > 0){
+		var Select = Container.getElementsByTagName('select')[0];
+		if (Select != null){
+			Result = parseInt(Select.id.substring(1, Select.id.length));
+		}
+	}
+	return Result;
+}
+
+function GetKeyFromSelect(Select){
+	var Result = -1;
+	if (Select != null){
+		Result = parseInt(Select.id.substring(1, Select.id.length));
+	}
+	return Result;
+}
+
+var OriginalKeys = new Array();
+var ReducedKeys = new Array();
+
+function GetUniqueKeys(Container, TargetArray){
+	TargetArray.length = 0;
+	var x = -1;
+	var SList = Container.getElementsByTagName('select');
+	if (SList.length > 0){
+		for (var i=0; i<SList.length; i++){
+			x = GetKeyFromSelect(SList[i]);
+			if (TargetArray.indexOf(x) < 0){
+				TargetArray.push(x);
+			}
 		}
 	}
 }
 
-function CompileGuesses(){
-	var F = document.getElementById('store');
-	if (F != null){
-		var Temp = "php xml version='1.0'<hpnetresult><fields>";
-		var GapLabel = '';
-		for (var i=0; i<State.length; i++){
-			GapLabel = 'Gap ' + (i+1).toString();
-			Temp += '<field><fieldname>' + GapLabel + '</fieldname>';
-			Temp += '<fieldtype>student-responses</fieldtype><fieldlabel>' + GapLabel + '</fieldlabel>';
-			Temp += '<fieldlabelid>JClozeStudentResponses</fieldlabelid><fielddata>';
-			for (var j=0; j<State[i].Guesses.length; j++){
-				if (j>0){Temp += '| ';}
-				Temp += State[i].Guesses[j] + ' ';	
-			}	
-  		Temp += '</fielddata></field>';
+function SetUpItems(ShuffleQs, ReduceTo){
+	var QList = new Array();
+	var i, j, k, Selects, Options;
+
+//Remove all the table rows and put them in an array for processing
+	var Qs = document.getElementById('Questions');
+	
+//First, get a list of keys
+	GetUniqueKeys(Qs, OriginalKeys);
+
+//Remove the table rows to an array
+	while (Qs.getElementsByTagName('tr').length > 0){
+		QList.push(Qs.removeChild(Qs.getElementsByTagName('tr')[0]));
+	}
+
+	var Reducing = (QList.length > ReduceTo);
+	
+//If required, select random rows to delete
+	if (Reducing == true){
+		var DumpItem = 0;
+		while (ReduceTo < QList.length){
+	
+//Get a number to delete from the array
+			DumpItem = Math.floor(QList.length*Math.random());
+			for (i=DumpItem; i<(QList.length-1); i++){
+				QList[i] = QList[i+1];
+			}
+			QList.length = QList.length-1;
 		}
-		Temp += '</fields></hpnetresult>';
-		Detail = Temp;
+	}
+//Shuffle the rows if necessary
+	if (ShuffleQs == true){
+		QList = Shuffle(QList);
+	}
+
+	TotalUnfixedLeftItems = QList.length;
+	
+//Write the rows back to the table body
+	for (i=0; i<QList.length; i++){
+		Qs.appendChild(QList[i]);
+	}
+	
+//Now we need to remove any drop-down options that no longer have associated select items
+	if (Reducing == true){
+		GetUniqueKeys(Qs, ReducedKeys);
+		
+		Selects = Qs.getElementsByTagName('select');
+		for (i=0; i<Selects.length; i++){
+			Options = Selects[i].getElementsByTagName('option');
+			for (j=Options.length-1; j>=0; j--){
+				if (OptionRequired(Options[j].value) == false){
+					Selects[i].removeChild(Options[j]);
+				}
+			}
+		}
+	}
+}
+
+function OptionRequired(Key){
+	if (ReducedKeys.indexOf(Key) > -1){
+		return true;
+	}
+	else{
+		if (OriginalKeys.indexOf(Key) > -1){
+			return false;
+		}
+		else{
+			return true;
+		}
 	}
 }
 
 function CheckAnswers(){
 	if (Locked == true){return;}
-	SaveCurrentAnswers();
-	var AllCorrect = true;
-
-//Check each answer
-	for (var i = 0; i<I.length; i++){
-
-		if (State[i].AnsweredCorrectly == false){
-//If it's right, calculate its score
-			if (CheckAnswer(i, true) > -1){
-				var TotalChars = GetGapValue(i).length;
-				State[i].ItemScore = (TotalChars-State[i].HintsAndChecks)/TotalChars;
-				if (State[i].ClueGiven == true){State[i].ItemScore /= 2;}
-				if (State[i].ItemScore <0 ){State[i].ItemScore = 0;}
-				State[i].AnsweredCorrectly = true;
-//Drop the correct answer into the page, replacing the text box
-				SetCorrectAnswer(i, GetGapValue(i));
-			}
+	var Select = null;
+	var Key = -1;
+	var Parent = null;
+	var Answer = null;
+	var AnsText = '';
+	var AllDone = true;
+	TotCorrectChoices = 0;
+	
+//for each item not fixed or a distractor
+	for (var i=0; i<Status.length; i++){
+	
+//if it hasn't been answered correctly yet
+		if (Status[i][0] < 1){
+		
+//Add one to the number of tries for this item
+			Status[i][1]++;
+			
+//Get a pointer to the drop-down
+			Select = document.getElementById(Status[i][2]);
+			Key = GetKeyFromSelect(Select);
+//Save the answer given
+			Status[i][3].push(Select.options[Select.selectedIndex].value);
+			
+//Check the answer
+			if (Select.options[Select.selectedIndex].value == Key){
+					Status[i][0] = 1;
+					AnsText = Select.options[Select.selectedIndex].innerHTML;
+					Parent = Select.parentNode;
+					Parent.removeChild(Select);
+					Parent.innerHTML = AnsText;
+					Parent.nextSibling.innerHTML = CorrectIndicator;
+			} 
 			else{
-//Otherwise, increment the hints for this item, as a penalty
-				State[i].HintsAndChecks++;
-
-//then set the flag
-				AllCorrect = false;
+				AllDone = false;
+				Parent = Select.parentNode;
+				Parent.nextSibling.innerHTML = IncorrectIndicator;
 			}
 		}
+		else{
+//Add a copy of the last (correct) answer.
+			Status[i][3].push(Status[i][3][Status[i][3].length-1]);
+		}
+//If it's correct, count it
+		if (Status[i][0] == 1){
+			TotCorrectChoices++;
+		}
 	}
+//Calculate the score
+	Score = Math.floor(((TotCorrectChoices-Penalties)/TotalUnfixedLeftItems)*100);
+	if (Score<0){Score = 0;}
+	var Feedback = '';
 
-//Calculate the total score
-	var TotalScore = 0;
-	for (i=0; i<State.length; i++){
-		TotalScore += State[i].ItemScore;
-	}
-	TotalScore = Math.floor((TotalScore * 100)/I.length);
-
-//Compile the output
-	Output = '';
-
-	if (AllCorrect == true){
-		Output = Correct + '<br />';
-	}
-
-	Output += YourScoreIs + ' ' + TotalScore + '%.<br />';
-	if (AllCorrect == false){
-		Output += Incorrect;
-	}
-	//ShowMessage(Output);
-	//setTimeout('WriteToInstructions(Output)', 50);
-	
-	Score = TotalScore;
-	if(Score==100){
-	ShowMessage(Output+"<img  src=\"img/100.gif\" width=\"150\" height=\"180\"  />");
-	}
-	else if(Score<100&&Score>=70){
-	ShowMessage(Output+"<img  src=\"img/70-99.gif\" width=\"150\" height=\"180\"  />");	
-	}
-	else if(Score<70&&Score>=40){
-	ShowMessage(Output+"<img  src=\"img/40-70.gif\" width=\"150\" height=\"180\"  />");	
+//Build the feedback
+	if (AllDone == true){
+		Feedback = YourScoreIs + ' ' + Score + '%.' + '<br />' + CorrectResponse;
 	}
 	else{
-	ShowMessage(Output+"<img  src=\"img/0.gif\" width=\"150\" height=\"180\"  />");	
+		Feedback = YourScoreIs + ' ' + Score + '%.' + '<br />' + IncorrectResponse;
+//Penalty for incorrect check
+		Penalties++;
 	}
-	CompileGuesses();
-	
-	if ((AllCorrect == true)||(Finished == true)){
-	
+
+//If the exercise is over, deal with that
+	if ((AllDone == true)||(TimeOver == true)){
 
 
 		TimeOver = true;
 		Locked = true;
 		Finished = true;
 		setTimeout('Finish()', SubmissionTimeout);
+		WriteToInstructions(Feedback);
 	}
 
-}
-
-function TrackFocus(BoxNumber){
-	CurrentWord = BoxNumber;
-	InTextBox = true;
-}
-
-function LeaveGap(){
-	InTextBox = false;
-}
-
-function CheckBeginning(Guess, Answer){
-	var OutString = '';
-	var i = 0;
-	var UpperGuess = '';
-	var UpperAnswer = '';
-
-	if (CaseSensitive == false) {
-		UpperGuess = Guess.toUpperCase();
-		UpperAnswer = Answer.toUpperCase();
+//Show the feedback
+	if(Score==100){
+	ShowMessage(Feedback+"<img  src=\"img/100.gif\" width=\"150\" height=\"180\"  />");
 	}
-	else {
-		UpperGuess = Guess;
-		UpperAnswer = Answer;
+	else if(Score<100&&Score>=70){
+	ShowMessage(Feedback+"<img  src=\"img/70-99.gif\" width=\"150\" height=\"180\"  />");	
 	}
-
-	while (UpperGuess.charAt(i) == UpperAnswer.charAt(i)) {
-		OutString += Guess.charAt(i);
-		i++;
-	}
-	OutString += Answer.charAt(i);
-	return OutString;
-}
-
-function GetGapValue(GNum){
-	var RetVal = '';
-	if ((GNum<0)||(GNum>=I.length)){return RetVal;}
-	if (document.getElementById('Gap' + GNum) != null){
-		RetVal = document.getElementById('Gap' + GNum).value;
-		RetVal = TrimString(RetVal);
+	else if(Score<70&&Score>=40){
+	ShowMessage(Feedback+"<img  src=\"img/40-70.gif\" width=\"150\" height=\"180\"  />");	
 	}
 	else{
-		RetVal = State[GNum].Guesses[State[GNum].Guesses.length-1];
-	}
-	return RetVal;
-}
-
-function SetGapValue(GNum, Val){
-	if ((GNum<0)||(GNum>=I.length)){return;}
-	if (document.getElementById('Gap' + GNum) != null){
-		document.getElementById('Gap' + GNum).value = Val;
-		document.getElementById('Gap' + GNum).focus();
-	}
-}
-
-function SetCorrectAnswer(GNum, Val){
-	if ((GNum<0)||(GNum>=I.length)){return;}
-	if (document.getElementById('GapSpan' + GNum) != null){
-		document.getElementById('GapSpan' + GNum).innerHTML = Val;
-	}
-}
-
-function FindCurrent() {
-	var x = 0;
-	FoundCurrent = -1;
-
-//Test the current word:
-//If its state is not set to already correct, check the word.
-	if (State[CurrentWord].AnsweredCorrectly == false){
-		if (CheckAnswer(CurrentWord, false) < 0){
-			return CurrentWord;
-		}
+	ShowMessage(Feedback+"<img  src=\"img/0.gif\" width=\"150\" height=\"180\"  />");	
 	}
 	
-	x=CurrentWord + 1;
-	while (x<I.length){
-		if (State[x].AnsweredCorrectly == false){
-			if (CheckAnswer(x, false) < 0){
-				return x;
-			}
-		}
-	x++;	
-	}
 
-	x = 0;
-	while (x<CurrentWord){
-		if (State[x].AnsweredCorrectly == false){
-			if (CheckAnswer(x, false) < 0){
-				return x;
-			}
-		}
-	x++;	
-	}
-	return FoundCurrent;
 }
 
-function CheckAnswer(GapNum, MarkAnswer){
-	var Guess = GetGapValue(GapNum);
-	var UpperGuess = '';
-	var UpperAnswer = '';
-	if (CaseSensitive == false){
-		UpperGuess = Guess.toUpperCase();
-	}
-	else{
-		UpperGuess = Guess;
-	}
-	var Match = -1;
-	for (var i = 0; i<I[GapNum][1].length; i++){
-		if (CaseSensitive == false){
-			UpperAnswer = I[GapNum][1][i][0].toUpperCase();
-		}
-		else{
-			UpperAnswer = I[GapNum][1][i][0];
-		}
-		if (TrimString(UpperGuess) == UpperAnswer){
-			Match = i;
-			if (MarkAnswer == true){
-				State[GapNum].AnsweredCorrectly = true;
-			}
-		}
-	}
-	return Match;
-}
-
-function GetHint(GapNum){
-	Guess = GetGapValue(GapNum);
-
-	if (CheckAnswer(GapNum, false) > -1){return ''}
-	RightBits = new Array();
-	for (var i=0; i<I[GapNum][1].length; i++){
-		RightBits[i] = CheckBeginning(Guess, I[GapNum][1][i][0]);
-	}
-	var RightOne = FindLongest(RightBits);
-	var Result = I[GapNum][1][RightOne][0].substring(0,RightBits[RightOne].length);
-//Add another char if the last one is a space
-	if (Result.charAt(Result.length-1) == ' '){
-		Result = I[GapNum][1][RightOne][0].substring(0,RightBits[RightOne].length+1);
-	}
-	return Result;
-}
-
-function ShowHint(){
-	if (document.getElementById('FeedbackDiv').style.display == 'block'){return;}
-	if (Locked == true){return;}
-	var CurrGap = FindCurrent();
-	if (CurrGap < 0){return;}
-
-	var HintString = GetHint(CurrGap);
-
-	if (HintString.length > 0){
-		SetGapValue(CurrGap, HintString);
-		State[CurrGap].HintsAndChecks += 1;
-	}
-	ShowMessage(GiveHint);
-}
-
-function TypeChars(Chars){
-	var CurrGap = FindCurrent();
-	if (CurrGap < 0){return;}
-	if (document.getElementById('Gap' + CurrGap) != null){
-		SetGapValue(CurrGap, document.getElementById('Gap' + CurrGap).value + Chars);
-	}
-}
 
 
 
@@ -879,11 +776,11 @@ function TypeChars(Chars){
 <!-- EndTopNavButtons -->
 
 <div class="Titles">
-	<h2 class="ExerciseTitle">Verificar Resultado</h2>
+	<h2 class="ExerciseTitle"></h2>
 
-	
+	<h3 class="ExerciseSubtitle">Verificar Pontuação Final</h3>
 
-<br />
+
 
 </div>
 
@@ -893,26 +790,18 @@ function TypeChars(Chars){
 
 
 
-
-
 <div id="MainDiv" class="StdDiv">
 
-<!-- These top buttons hidden; reveal if required -->
-<!--
-<button id="CheckButton1" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Check&nbsp;</button>
 
 
-<button class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="ShowHint()">&nbsp;Hint&nbsp;</button>
+<div id="MatchDiv" style="text-align: center;">
 
+<form id="QForm" method="post" action="" onsubmit="return false;">
 
- -->
- 
-<div id="ClozeDiv">
-<form id="Cloze" method="post" action="" onsubmit="return false;">
-<br />
+</form>
+</div>
 
 <button id="CheckButton2" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Verificar&nbsp;</button>
-
 </div>
 
 
@@ -925,11 +814,10 @@ function TypeChars(Chars){
 <!-- BeginBottomNavButtons -->
 
 
-   
-            
 <div class="line"></div>  <!-- Dividing line --> 
-Para acessar os materiais complementares, clique na figura abaixo.<br /><br />
-         <a target="_blank" href="http://arquivos.unicruz.edu.br/myke/questionario_estilos/basico/serialista/serialista_basico.php">  <img src="../../../images/img1.png"  title="" width="80" height="80"/> </a>
+           
+			Para acessar os materiais complementares, clique na figura abaixo.<br /><br />
+         <a target="_blank" href="http://arquivos.unicruz.edu.br/myke/questionario_estilos/basico/convergente/convergente_basico.php">  <img src="../../../images/img1.png"  title="" width="80" height="80"/> </a>
 
         
         
