@@ -1140,6 +1140,10 @@ function CheckFinished(){
 
 <input type="submit" name="enviar" value="Começar" />
 
+<form action="q1.php">
+    <input type="submit" value="Refazer" />
+</form>
+
 </div>
 
 
