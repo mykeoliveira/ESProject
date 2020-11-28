@@ -14,18 +14,9 @@ $localhost='us-cdbr-east-02.cleardb.com';
 //conectando com o localhost - mysqli
 $conexao = mysqli_connect("us-cdbr-east-02.cleardb.com","be4a84f91fb99e","e3a62a69","heroku_c5baaf19dbcfd2c") or die ('Não foi possível conectar');
 
-$sql=mysql_query("SELECT FROM `usuario` (`nome`,`login`,`senha`) WHERE `senha`='$login'");
-if(mysql_num_rows($sql)>=1)
-{
-echo "Login already exists";
-header("location: Login.php");
-}
-else
-{
 $query = "INSERT INTO `usuario` (`nome`,`login`,`senha`) VALUES ('$nome', '$login', '$senha')";
 mysqli_query($conexao, $query) or die ("Erro no comando SQL:".mysqli_error());
 header("location: Login.php");
-}
 
 //print $query;
 
