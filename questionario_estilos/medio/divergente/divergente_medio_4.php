@@ -1132,7 +1132,7 @@ function CheckFinished(){
  
 <ol class="QuizQuestions" id="Questions">
 <li class="QuizQuestion" id="Q_0" style="display: none;"><div class="QuestionText"></div><ol class="MCAnswers"><li id="Q_0_0"><button class="FuncButton" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_0_0_Btn" onclick="CheckMCAnswer(0,0,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Usado na busca por arquivos alocados na mem&#x00F3;ria do sistema</li><li id="Q_0_1"><button class="FuncButton" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_0_1_Btn" onclick="CheckMCAnswer(0,1,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Serve para mostrar na tela um dado formatado da entrada padr&#x00E3;o (teclado) pelo printf</li><li id="Q_0_2"><button class="FuncButton" onfocus="FuncBtnOver(this)" onblur="FuncBtnOut(this)" onmouseover="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)"  onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" id="Q_0_2_Btn" onclick="CheckMCAnswer(0,2,this)">&nbsp;&nbsp;?&nbsp;&nbsp;</button>&nbsp;&nbsp;Complemento de printf, permite ler dados formatados da entrada padr&#x00E3;o (teclado)</li></ol></li></ol>
-
+<a href="divergente_medio_3.php"> Anterior </a>
 <br /><a href="divergente_medio_5.php"> Próximo </a>
 
 </div>
