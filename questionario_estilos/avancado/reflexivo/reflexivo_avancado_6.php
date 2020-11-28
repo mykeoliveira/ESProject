@@ -924,6 +924,7 @@ Categoria Idade<br />Infantil 5 a 7<br />Juvenil 8 a 10<br />Adolescente 11 a 15
 <br />
 
 <button id="CheckButton2" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Verificar&nbsp;</button>
+	<a href="divergente_avancado_5.php"> Anterior </a>
 <a href="reflexivo_avancado_7.php"> Próximo </a>
 
 
