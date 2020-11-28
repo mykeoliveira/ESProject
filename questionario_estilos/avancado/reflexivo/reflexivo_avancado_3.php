@@ -974,7 +974,7 @@ function TypeChars(Chars){
 <br>
 
 <button id="CheckButton2" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Verificar&nbsp;</button>
-<a href="divergente_avancado_2.php"> Anterior </a>
+<a href="reflexivo_avancado_2.php"> Anterior </a>
 <a href="reflexivo_avancado_4.php"> Próximo </a>
 
 
