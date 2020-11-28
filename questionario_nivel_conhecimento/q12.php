@@ -1142,6 +1142,10 @@ function CheckFinished(){
 	
 	<a href="<?= $previous ?>">Back</a>
 
+<form action="q1.php">
+    <input type="submit" value="Refazer" />
+</form>
+
 </div>
 
 
