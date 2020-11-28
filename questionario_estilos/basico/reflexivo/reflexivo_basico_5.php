@@ -895,6 +895,7 @@ function CheckAnswers(){
 </div>
 
 <button id="CheckButton2" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Verificar&nbsp;</button>
+<a href="reflexivo_basico_4.php"> Anterior </a>
 <a href="reflexivo_basico_6.php"> Próximo </a>
 </div>
 
