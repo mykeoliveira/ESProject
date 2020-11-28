@@ -918,6 +918,7 @@ algoritmo_Obtem_Conceito_Aluno <br />declare <br />int: P1, P2, P3, P4; <br />re
 
 
 <button id="CheckButton2" class="FuncButton" onmouseover="FuncBtnOver(this)" onfocus="FuncBtnOver(this)" onmouseout="FuncBtnOut(this)" onblur="FuncBtnOut(this)" onmousedown="FuncBtnDown(this)" onmouseup="FuncBtnOut(this)" onclick="CheckAnswers()">&nbsp;Verificar&nbsp;</button>
+<a href="reflexivo_basico_6.php"> Anterior </a>
 <a href="reflexivo_basico_8.php"> Próximo </a>
 
 </div>
