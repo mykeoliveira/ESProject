@@ -85,7 +85,7 @@ if($_GET['acao']  == 'cadastrar')
 
 { /*Cadastra os dados depois que o formulário for enviado */
   //Verifica os dados enviados
-  
+  /*verificando os dados dos campos dos formulários aqui :)*/
  
   if($um == '') {
    $erros++;
