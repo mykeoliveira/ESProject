@@ -924,6 +924,7 @@ O s&#x00ED;mbolo usado para representar a adi&#x00E7;&#x00E3;o &#x00E9; <span cl
 <input type="button" value="Verificar" onclick="CheckAnswers()" />
 <input type="hidden" name="porcentagem" id="porcentagem" value="">
 <input type="submit" name="enviar" value="Próximo" />
+<button onclick="history.go(-1);">Back </button>
 </form>
 <br>
 </div>

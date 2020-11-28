@@ -1143,6 +1143,8 @@ function CheckFinished(){
 <input type="hidden" name="porcentagem" id="porcentagem" value="">
 
 <input type="submit" name="enviar" value="Próximo" />
+	
+	<a href="<?= $previous ?>">Back</a>
 
 </div>
 
